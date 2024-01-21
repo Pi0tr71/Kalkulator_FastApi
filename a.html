@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            align-items: center;
+            text-align: center;
+        }
+  </style>
+</head>
+<body>
+    <h1>Kalkulator</h1>
+
+    <form id="calculatorForm">
+        <label for="value1">Liczba 1:</label>
+        <input type="number" step="any" id="value1" required>
+
+        <label for="operation">Operacja:</label>
+        <select id="operation" required>
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="^">^</option>
+            <option value="|">|</option>
+        </select>
+
+        <label for="value2">Liczba 2:</label>
+        <input type="number" step="any" id="value2" required>
+
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+
+    <h2>Result:</h2>
+    <p id="result"></p>
+
+    <script>
+        async function calculate() {
+            const value1 = document.getElementById('value1').value;
+            const value2 = document.getElementById('value2').value;
+            const operation = document.getElementById('operation').value;
+
+            url = `http://127.0.0.1:8080/oblicz/${value1}${operation}${value2}`;
+
+            try {
+                console.log(url);
+                const response = await fetch(url);
+                const data = await response.json();
+                document.getElementById('result').innerText = `Result: ${data.result}`;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('result').innerText = 'Error fetching data';
+            }
+        }
+    </script>
+</body>
+</html>
